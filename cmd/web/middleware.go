@@ -15,6 +15,14 @@ const (
 	ctxKeyUser ctxKey = iota
 )
 
+func (app *application) standardMiddleware(next http.Handler) http.Handler {
+	return app.recoverPanic(app.logRequest(next))
+}
+
+func (app *application) dynamicMiddleware(next http.Handler) http.Handler {
+	return app.authenticate(next)
+}
+
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
