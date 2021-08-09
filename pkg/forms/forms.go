@@ -33,10 +33,5 @@ func (f *Form) Required(name string) {
 }
 
 func (f *Form) Valid() bool {
-	for name := range f.Errors {
-		if f.Errors.Get(name) != "" {
-			return false
-		}
-	}
-	return true
+	return len(f.Errors) == 0
 }
